@@ -48,16 +48,11 @@ def evaluate_predictions(predictions, y_true):
 
 
 #evaluate the PATE for diff dataset with diff teacher# with diff eps in 3 trails.
-# dataset_name=['adult','churn', 'compas', 'dutch', 'heart', 'law']
-# y_attribute=['income>50K','Churn Value', 'two_year_recid','occupation','output','pass_bar']
-# teacher_n_list=[[100, 300, 500],[100, 150, 200], [100, 200, 300], [100, 450, 800], [5, 10, 15], [100, 150, 200]]
-# # epsilon_set=[1/4, 2/4, 3/4, 1, 5/4, 6/4, 7/4, 2]
+dataset_name=['adult','churn', 'compas', 'dutch', 'heart', 'law']
+y_attribute=['income>50K','Churn Value', 'two_year_recid','occupation','output','pass_bar']
+teacher_n_list=[[100, 300, 500],[100, 150, 200], [100, 200, 300], [100, 450, 800], [5, 10, 15], [100, 150, 200]]
+# epsilon_set=[1/4, 2/4, 3/4, 1, 5/4, 6/4, 7/4, 2]
 
-
-epsilon_set=[1]   
-dataset_name=['heart']
-y_attribute=['output']
-teacher_n_list=[[5, 10, 15]]
 T=100   #the query number, all the training size for student model
 # T=20 #for heart data only
 delta=1e-5
@@ -80,7 +75,7 @@ for data in range(len(dataset_name)):
         accuracys=[]
         for j in range(10):
 
-          df=pd.read_csv ('real_data_recount/real_data/%s.csv'%(dataset_name[data]))
+          df=pd.read_csv ('preprocessd_data/%s.csv'%(dataset_name[data]))
           X_train=df.drop('%s'%(y_attribute[data]),axis=1)
           Y_train=df['%s'%(y_attribute[data])]
 
@@ -131,7 +126,7 @@ for data in range(len(dataset_name)):
         acc_overall[dataset_name[data]][n_teachers][eps]=accuracys
 
 #save all accuracys to a json file
-file_path = "real_data_recount/evaluate/pate_student_heart.json"  # You can change the filename and path as needed
+file_path = "output/pate.json"  # You can change the filename and path as needed
 
 
 
