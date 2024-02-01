@@ -39,7 +39,7 @@ for data in range(len(dataset_name)):
     roc_10=[]
     loss_10=[]
     for set in range(10):
-      df=pd.read_csv ('real_data/%s.csv'%(dataset_name[data]))
+      df=pd.read_csv ('preprocessd_data/%s.csv'%(dataset_name[data]))
       # df_syn=pd.read_csv('real_data_recount/syn_data_l1/set_%s_syn_%s_eps=%s.csv'%(set, dataset_name[data], epsilon))
       df_syn=pd.read_csv('output/syn_data/set_%s_syn_%s_eps=%s.csv'%(set, dataset_name[data], epsilon))
 
@@ -79,7 +79,7 @@ for data in range(len(dataset_name)):
     performance['loss'][dataset_name[data]][epsilon]=loss_10
 
 
-file_path = "output/aim_evaluate.json"  
+file_path = "output/syndata_evaluation.json"  
 # Save the dictionary to a JSON file
 with open(file_path, "w") as json_file:
   json.dump(performance, json_file, indent=4)
