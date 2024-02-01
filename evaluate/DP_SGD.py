@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 from numpy import linalg as LA
 from scipy import sparse
-import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
@@ -134,7 +133,7 @@ for data in range(len(dataset_name_set)):
 
 
 
-  df=pd.read_csv ('real_data/%s.csv'%(dataset_name))
+  df=pd.read_csv ('preprocessd_data/%s.csv'%(dataset_name))
 
   # df=balancedata(df, y_attribute, method='upsampled')      #upsample for data heart
   X_train, Y_train=normalizedata(df, y_attribute, method=None)
