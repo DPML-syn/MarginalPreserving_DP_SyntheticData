@@ -1,10 +1,7 @@
-##clipping over average gradient of dataset
-
 import pandas as pd
 import numpy as np
 from numpy import linalg as LA
 from scipy import sparse
-import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
@@ -17,9 +14,6 @@ import math
 import matplotlib.pyplot as plt
 import gc
 from utility import balancedata, normalizedata, ACC, LOSS
-
-
-
 
 # training and testing data using type of np.array
 class DP_GD:
@@ -50,23 +44,12 @@ class DP_GD:
     
     for i in range(n):
       grad = np.dot(X[i].T, y_pred[i] - Y[i])
-      grad=grad*np.min([1, self.C/(np.linalg.norm(grad)+1e-16)])           #clipping
+      grad=grad*np.min([1, self.C/(np.linalg.norm(grad)+1e-16)])     #clipping sample gradient
       grad_sum+=grad
     grad_avg=grad_sum/n
     if self.DP==True:  
       grad_avg=grad_avg+np.random.normal(loc=0, scale=self.sigma, size=m)        
     return grad_avg
-
-    # grad = 1/len(X)*np.dot(X.T, y_pred - Y)+regularization_term
-
-
-    # if self.DP==True:
-    #   grad=grad*np.min([1, self.C/(np.linalg.norm(grad)+1e-16)])          #clipping
-    #   grad=grad+np.random.normal(loc=0, scale=self.sigma, size=grad.size)
-    # else:
-    #   grad=grad*np.min([1, self.C/(np.linalg.norm(grad)+1e-16)])       # clipping in No-DP setting too, (commments if no clip in no-DP)
-        
-    # return grad
 
   def loss(self, X, y, w):
     n=y.size
@@ -117,23 +100,11 @@ class DP_GD:
     y_pred = self._sigmoid(z)
     return y_pred
 
-
-
-
-
-# dataset_name_set=['adult','churn', 'compas', 'dutch', 'law', 'heart']
-# y_attribute_set=['income>50K','Churn Value', 'two_year_recid','occupation','pass_bar','output']
-# iteration_set=[1000, 1000, 500, 500, 1000, 500]
-# learning_rate_set=[10, 1, 5, 5, 1, 1]
-# decay_set=[0.1, 1, 0.1, 0.1, 0.5, 0.5]
-
 dataset_name_set=['adult','churn', 'compas', 'dutch', 'law', 'heart']
 y_attribute_set=['income>50K','Churn Value', 'two_year_recid','occupation','pass_bar','output']
 iteration_set=[500, 500, 500, 500, 300, 1000]
 learning_rate_set=[5, 1, 5, 5, 1, 5]
 decay_set=[0.1, 0.5, 0.1, 0.1, 0.1, 0.1]
-
-
 
 performance={}
 performance['acc']={}
@@ -141,16 +112,13 @@ performance['roc']={}
 performance['loss']={}
 
 for data in range(len(dataset_name_set)):
-
-# for data in [5]:
+# for data in [5]:  #run for single dataset
   # print(data)
   dataset_name=dataset_name_set[data]
   y_attribute=y_attribute_set[data]
   decay_rate=decay_set[data]
 
-
-
-  df=pd.read_csv ('real_data/%s.csv'%(dataset_name))
+  df=pd.read_csv ('preprocessd_data/%s.csv'%(dataset_name))
 
   # df=balancedata(df, y_attribute, method='upsampled')      #upsample for data heart
   X_train, Y_train=normalizedata(df, y_attribute, method=None)
