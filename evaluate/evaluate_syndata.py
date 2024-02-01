@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 from numpy import linalg as LA
 from scipy import sparse
-import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
@@ -12,8 +11,6 @@ from sklearn.utils import resample
 from sklearn import preprocessing
 import json
 from utility import balancedata, normalizedata, ACC, LOSS
-
-
 
 
 dataset_name=['adult','churn', 'compas', 'dutch', 'law', 'heart']
